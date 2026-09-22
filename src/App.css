@@ -378,6 +378,31 @@
   color: var(--text-soft);
 }
 
+.prompt-meta {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.prompt-counter {
+  color: var(--text-soft);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+}
+
+.prompt-counter--error {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.prompt-error {
+  color: var(--danger);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
 .btn-generate {
   height: 54px;
   padding: 0 24px;

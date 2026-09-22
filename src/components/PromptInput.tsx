@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { MAX_PROMPT_LENGTH, isPromptLengthValid } from '../utils/validation';
 
 interface PromptInputProps {
   onGenerate: (prompt: string) => void;
@@ -16,10 +17,11 @@ const EXAMPLES = [
 
 export function PromptInput({ onGenerate, isLoading }: PromptInputProps) {
   const [prompt, setPrompt] = useState('');
+  const isLengthValid = isPromptLengthValid(prompt);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (prompt.trim() && !isLoading) {
+    if (prompt.trim() && isLengthValid && !isLoading) {
       onGenerate(prompt.trim());
     }
   };
@@ -47,10 +49,18 @@ export function PromptInput({ onGenerate, isLoading }: PromptInputProps) {
             }
           }}
         />
+        <div className="prompt-meta">
+          <span className={`prompt-counter ${isLengthValid ? '' : 'prompt-counter--error'}`}>
+            {prompt.length}/{MAX_PROMPT_LENGTH}
+          </span>
+          {!isLengthValid && (
+            <span className="prompt-error">{MAX_PROMPT_LENGTH}자를 초과했습니다.</span>
+          )}
+        </div>
         <button
           type="submit"
           className="btn-generate"
-          disabled={!prompt.trim() || isLoading}
+          disabled={!prompt.trim() || !isLengthValid || isLoading}
         >
           {isLoading ? (
             <span className="loading-spinner">생성 중...</span>
